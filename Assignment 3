@@ -1,0 +1,143 @@
+#Rutuja Bhagepalle 22CV004
+#To Calculate the length of transition curve
+V= int(input("Enter the value of design speed: "))
+R= int(input("Enter the value of Radius of curvature: "))
+N= int(input("Enter the value of slope: "))
+W= float(input("Enter the value of width of road including extra widening: "))
+emax=float(input("'enter the value for plain terain:"))
+`
+print("The value of Super elevation:",ecal)
+if ecal<emax:
+  print(ecal)
+else:
+  print(emax)
+Ls=(emax*N*W/2)
+print("The length of transition curve:", Ls)
+
+
+Output:-
+
+Enter the value of design speed: 65
+Enter the value of Radius of curvature: 220
+Enter the value of slope: 150
+Enter the value of width of road including extra widening: 7.5
+'enter the value for plain terain:0.07
+The value of Super elevation: 0.08535353535353535
+0.07
+The length of transition curve: 39.37500000000001
+
+
+
+
+
+
+
+
+
+
+
+
+#Rutuja Bhagepalle 22CV004
+R = int(input(" Constant R: "))
+C = int (input (" Constant C: "))
+import numpy as geek # Added spaces for correct import
+A = int(input ("Total Data Values for EWL Constant: "))
+B = int(input ("Total Data Values for AADT: "))
+EWL_Constant = [] # Corrected variable name
+AADT = []
+for i in range (A): # Corrected loop variable
+  print("Enter EWL Constant:")
+  ewl_val = float (input()) # Used a different variable for input
+  EWL_Constant.append(ewl_val) # Appended the input value
+for j in range (B): # Corrected loop variable
+  print("Enter AADT: ")
+  aadt_val = float (input ())
+  # Used a different variable for input
+  AADT.append (aadt_val)
+  # Appended the input value
+product = geek.dot (EWL_Constant, AADT)
+# Corrected variable name
+# print(" Dot Product")
+# This line was commented out
+Total_EWL = product
+# Corrected variable name
+print(" Total EWL :", Total_EWL)
+# Corrected variable name
+print("EWL after 60 years :", Total_EWL*1.6)
+# Corrected variable name
+TI = 1.35 * (((1.6 * Total_EWL) + (Total_EWL / 2)) ** 0.11)
+# Corrected variable names and calculation
+print ("Traffic Index : ", TI)
+
+# Output # Removed the use of "Output" as a variable name
+Thickness = 0.166 * TI * (99 - R) / (C ** 0.2)
+print ("Pavement Thickness: ", Thickness, "cm")
+
+
+
+
+
+
+
+
+Output:-
+Constant R: 48
+ Constant C: 16
+Total Data Values for EWL Constant: 4
+Total Data Values for AADT: 4
+Enter EWL Constant:
+330
+Enter EWL Constant:
+1070
+Enter EWL Constant:
+2460
+Enter EWL Constant:
+4620
+Enter AADT: 
+3750
+Enter AADT: 
+470
+Enter AADT: 
+320
+Enter AADT: 
+120
+ Total EWL : 3082000.0
+EWL after 60 years : 4931200.0
+Traffic Index :  7.577910657490486
+Pavement Thickness:  36.847136933326986 cm
+
+
+
+
+
+#Rutuja Bhagepalle 22CV004
+P =float (input(" Load in kg: "))
+p =float (input (" Tyre pressure kg/cm^2: "))
+M = int (input ("Total Number of layers in a given Pavement : "))
+pi = 3.14159
+CBR = []
+for i in range (1, M+1):
+  print ("California Bearing Ratio of Material in %")
+  CBR_value = float (input ())
+  CBR. append (CBR_value)
+  T = ((1.75*P)/ (CBR_value) -(P/(p*pi)) ) **0.5
+  print ("Thickness Above this layer: ", T, "cm")
+
+print ("Given that bitumen layer of 4 cm")
+
+
+Output:-
+
+Load in kg: 4085
+ Tyre pressure kg/cm^2: 7
+Total Number of layers in a given Pavement : 3
+California Bearing Ratio of Material in %
+4.38
+Thickness Above this layer:  38.031276487723645 cm
+California Bearing Ratio of Material in %
+6
+Thickness Above this layer:  31.712799015896838 cm
+California Bearing Ratio of Material in %
+12
+Thickness Above this layer:  20.247776538573337 cm
+Given that bitumen layer of 4 cm
