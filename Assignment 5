@@ -1,0 +1,316 @@
+#Rutuja Bhagepalle 22CV004
+# To find the ultimate moment carring capacity of singly r/f beam
+fck = float(input("Enter the value of charateristics compressive strength:"))
+fy= float(input("Enter the grade of steel:"))
+Es = float(input("Enter the value of Modulus of Elasticity of steel:"))
+b= float(input("Enter the value of Width: "))
+d= float(input("Enter the value of effective depth:"))
+d1 = float(input("Enter the value of bar diameter (d1):"))
+d2 = float(input("Enter the value of bar diameter (d2):"))
+n=int(input("Enter the number of bars"))
+Ast1= (n*0.7854*d1*d1)
+Ast2= (n*0.7854*d2*d2)
+print("The value of area of steel (Ast1):", Ast1)
+print("The vaiue of area of steel (Ast2):", Ast2)
+# Total area of steel
+Ast = Ast1 + Ast2
+print ("The value of area of steel (Ast):", Ast)
+# Neutral Axis Factor
+ku = 0.0035/(0.0055 + (fy/(1.15*Es)))
+print ("The value of Neutral axis factor (ku):", ku)
+# Momenent of Resistance factor
+Ru= 0.36*fck*ku*(1-(0.42*ku))
+print("The value of Moment of Resistance factor (Ru):", Ru)
+# Maximum Neutral Axis:
+xumax = ku*d
+print("The value of maximum neutral axis (xumax):", xumax)
+xu = (0.87 *fy*Ast)/(0.36*fck*b)
+print ("The value of Actual Neutral Axis (xu):", xu)
+if xumax>xu:
+    print("UNDER REINFORCED")
+else:
+    print("OVER REINFORCED")
+# By Comparing
+X = float(input("Enter the value of Neutral Axis:"))
+# Moment of Resistance
+Mu = 0.36*fck*X*b*(d-(0.42 *X)) * 10**-6
+print("The value of Moment of Resistance is:", Mu)
+
+
+
+
+
+
+
+
+Output:-
+Enter the value of charateristics compressive strength:20
+Enter the grade of steel:415
+Enter the value of Modulus of Elasticity of steel:200000
+Enter the value of Width: 230
+Enter the value of effective depth:400
+Enter the value of bar diameter (d1):20
+Enter the value of bar diameter (d2):16
+Enter the number of bars2
+The value of area of steel (Ast1): 628.32
+The vaiue of area of steel (Ast2): 402.1248
+The value of area of steel (Ast): 1030.4448
+The value of Neutral axis factor (ku): 0.4791666666666667
+The value of Moment of Resistance factor (Ru): 2.7556874999999996
+The value of maximum neutral axis (xumax): 191.66666666666669
+The value of Actual Neutral Axis (xu): 224.66310086956523
+OVER REINFORCED
+Enter the value of Neutral Axis:191.666
+The value of Moment of Resistance is: 101.40903614369086
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Rutuja Bhagepalle 22CV004
+# Design of Slab
+# Input Data
+span = float(input("Enter the value of effective span in meters: "))
+b = float(input("Enter the value of width of slab in mm: "))
+bs = float(input("Enter the value of Support Width in meters: "))
+fck = float(input("Enter the value of Characteristic Compressive Strength (fck): "))
+fy = float(input("Enter the value of Grade of Steel (fy): "))
+Es = float(input("Enter the value of Modulus of Elasticity (Es): "))
+LL = float(input("Enter the value of Live Load (LL) in kN/m²: "))
+FF = float(input("Enter the value of Floor Finish in kN/m²: "))
+Density = float(input("Enter the value of Density of RCC in kN/m³: "))
+# Design Constants
+ku = 0.0035 / ((0.0055) + (fy / (1.15 * Es)))
+print("The value of Neutral Axis Factor (ku) is:", ku)
+Ru = 0.36 * fck * ku * (1 - (0.42 * ku))
+print("The value of Moment Resistance factor (Ru) is:", Ru)
+# Assuming pt = 0.5%
+fs = float(input("Enter the value of Steel Stress under Service Load (fs): "))
+MF = float(input("Enter the value of Modification Factor (MF): "))
+S = float(input("Enter the value of span/depth ratio (S): "))
+# Correction Factors
+k1 = float(input("Enter the value of Correction factor if span > 10m (k1): "))
+k2 = float(input("Enter the value of Tension reinforcement correction factor (k2): "))
+k3 = float(input("Enter the value of Compression reinforcement correction factor (k3): "))
+k4 = float(input("Enter the value of correction factor in case of flanged section (k4): "))
+# Effective Depth as per Deflection Criteria
+d1 = (span * 1000) / (S * MF * k1 * k2 * k3 * k4)
+print("Effective depth as per deflection criteria (d1):", d1)
+# Provided Effective Depth and Overall Depth
+d = float(input("Enter the value of Effective depth (d) in mm: "))
+D = float(input("Enter the value of Overall depth (D) in mm: "))
+# Load Calculations
+DL = D * Density / 1000  # Self-weight of slab
+print("The Dead Load (DL) is:", DL)
+Factor = float(input("Enter the value of partial Safety Factor: "))
+TL = DL + LL + FF
+print("The Total Load (TL) is:", TL)
+Wu = Factor * TL
+print("Factored Load (Wu) is:", Wu)
+# Bending Moment
+Mu = Wu * span * span / 8
+print("Bending Moment (Mu) is:", Mu)
+# Check Effective Depth from Moment
+d2 = (Mu * 1000000 / (Ru * b)) ** 0.5
+print("Effective depth required as per Moment (d2):", d2)
+if d2 > d:
+    print("Revise the Depth: NOT SAFE")
+else:
+    print("SAFE")
+# Minimum Steel Area
+Astmin = 0.12 * b * D / 100
+print("Minimum Steel Area (Astmin):", Astmin)
+# Main Steel Calculation
+Ast = ((0.5 * fck * b * d) / fy) * (1 - ((1 - (4.6 * Mu * 1000000) / (fck * b * d * d)) ** 0.5))
+print("Required Steel Area (Ast):", Ast)
+if Ast < Astmin:
+    print("Take Ast = Astmin")
+    Ast = Astmin
+else:
+    print("Ast > Astmin, Hence SAFE")
+# Bar Details
+dia1 = float(input("Enter the bar diameter for main steel in mm: "))
+dia2 = float(input("Enter the bar diameter for distribution steel in mm: "))
+# Area of Bars
+ao1 = 0.7854 * dia1 * dia1
+print("Area of one main steel bar (ao1):", ao1)
+ao2 = 0.7854 * dia2 * dia2
+print("Area of one distribution steel bar (ao2):", ao2)
+# Spacing Calculations
+Spacing1 = ao1 * b / Ast
+print("Spacing for main steel bars:", Spacing1)
+Spacing2 = ao2 * b / Astmin
+print("Spacing for distribution steel bars:", Spacing2)
+# Checks for Main Steel Spacing
+print("Check 1 for Main Steel:")
+if Spacing1 > 300:
+    print("UNSAFE")
+else:
+    print("SAFE")
+print("Check 2 for Main Steel:")
+if Spacing1 > d:
+    print("UNSAFE")
+else:
+    print("SAFE")
+# Checks for Distribution Steel Spacing
+print("Check 1 for Distribution Steel:")
+if Spacing2 > 300:
+    print("UNSAFE")
+else:
+    print("SAFE")
+print("Check 2 for Distribution Steel:")
+if Spacing2 > 5 * d:
+    print("UNSAFE")
+else:
+    print("SAFE")
+# Provided Steel Area
+S1 = float(input("Enter the spacing for main bars (S1) in mm: "))
+S2 = float(input("Enter the spacing for distribution bars (S2) in mm: "))
+Astprovided = ao1 * b / S1
+print("Provided steel area for main bars (Astprovided):", Astprovided)
+Astprodist = ao2 * b / S2
+print("Provided steel area for distribution bars (Astprodist):", Astprodist)
+# Shear Check
+Vu = (Wu * span / 2) - (Wu * ((bs / 2) - (d / 1000)))
+print("Shear Force (Vu) at section:", Vu)
+SStress = (Vu * 1000) / (b * d)
+print("Shear Stress at section (SStress):", SStress)
+SStressmax = float(input("Enter the maximum Shear Stress from code (SStressmax): "))
+if SStress > SStressmax:
+    print("Crushing will happen")
+else:
+    print("SAFE")
+# Percentage Steel
+pt = (100 * Ast) / (b * d)
+print("Percentage of steel (pt):", pt)
+# Design Shear Strength
+SS = float(input("Enter the design shear stress (SS) from table: "))
+k = float(input("Enter the value of depth factor (k): "))
+Shear = k * SS
+print("Permissible Shear Strength (Shear):", Shear)
+if SStress > Shear:
+    print("Shear Reinforcement Required")
+else:
+    print("Shear Reinforcement not Required, SAFE")
+# Deflection Check
+ActDEF = span * 1000 / d
+print("Actual span/depth (span/d):", ActDEF)
+MaxDEF = S * MF * k1 * k2 * k3 * k4
+print("Permissible span/depth (MaxDEF):", MaxDEF)
+if MaxDEF > ActDEF:
+      print("SAFE")
+else:
+    print("UNSAFE")
+# Anchorage Length Check
+M1 = 0.87 * fy * Ast * (d - ((fy * Ast) / (fck * b)))
+print("Moment for Anchorage (M1):", M1)
+lo = 8 * dia1
+La = 1.3 * (M1 / Vu) + 10
+print("Required Anchorage Length (La):", La)
+# Development Length
+bondS = float(input("Enter the Bond Stress: "))
+Ld = (0.87 * fy * dia1) / (4 * bondS * 1.6)
+print("Development Length (Ld):", Ld)
+if La > Ld:
+    print("SAFE")
+else:
+    print("Increase Anchorage Length")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Output:-
+Enter the value of effective span in meters: 3
+Enter the value of width of slab in mm: 1000
+Enter the value of Support Width in meters: 0.23
+Enter the value of Characteristic Compressive Strength (fck): 20
+Enter the value of Grade of Steel (fy): 415
+Enter the value of Modulus of Elasticity (Es): 200000
+Enter the value of Live Load (LL) in kN/m²: 4
+Enter the value of Floor Finish in kN/m²: 1.8
+Enter the value of Density of RCC in kN/m³: 25
+The value of Neutral Axis Factor (ku) is: 0.4791666666666667
+The value of Moment Resistance factor (Ru) is: 2.7556874999999996
+Enter the value of Steel Stress under Service Load (fs): 240
+Enter the value of Modification Factor (MF): 1.2
+Enter the value of span/depth ratio (S): 20
+Enter the value of Correction factor if span > 10m (k1): 1
+Enter the value of Tension reinforcement correction factor (k2): 1
+Enter the value of Compression reinforcement correction factor (k3): 1
+Enter the value of correction factor in case of flanged section (k4): 1
+Effective depth as per deflection criteria (d1): 125.0
+Enter the value of Effective depth (d) in mm: 130
+Enter the value of Overall depth (D) in mm: 150
+The Dead Load (DL) is: 3.75
+Enter the value of partial Safety Factor: 1.5
+The Total Load (TL) is: 9.55
+Factored Load (Wu) is: 14.325000000000001
+Bending Moment (Mu) is: 16.115625
+Effective depth required as per Moment (d2): 76.473082008588
+SAFE
+Minimum Steel Area (Astmin): 180.0
+Required Steel Area (Ast): 364.7577413804497
+Ast > Astmin, Hence SAFE
+Enter the bar diameter for main steel in mm: 10
+Enter the bar diameter for distribution steel in mm: 8
+Area of one main steel bar (ao1): 78.54
+Area of one distribution steel bar (ao2): 50.2656
+Spacing for main steel bars: 215.32099552640113
+Spacing for distribution steel bars: 279.25333333333333
+Check 1 for Main Steel:
+SAFE
+Check 2 for Main Steel:
+UNSAFE
+Check 1 for Distribution Steel:
+SAFE
+Check 2 for Distribution Steel:
+SAFE
+Enter the spacing for main bars (S1) in mm: 210
+Enter the spacing for distribution bars (S2) in mm: 270
+Provided steel area for main bars (Astprovided): 374.0
+Provided steel area for distribution bars (Astprodist): 186.1688888888889
+Shear Force (Vu) at section: 21.702375
+Shear Stress at section (SStress): 0.16694134615384615
+Enter the maximum Shear Stress from code (SStressmax): 3.8
+SAFE
+Percentage of steel (pt): 0.28058287798496134
+Enter the design shear stress (SS) from table: 0.378
+Enter the value of depth factor (k): 1.3
+Permissible Shear Strength (Shear): 0.4914
+Shear Reinforcement not Required, SAFE
+Actual span/depth (span/d): 23.076923076923077
+Permissible span/depth (MaxDEF): 24.0
+SAFE
+Moment for Anchorage (M1): 16123682.812500006
+Required Anchorage Length (La): 965839.2079207924
+Enter the Bond Stress: 1.2
+Development Length (Ld): 470.1171875
+SAFE
